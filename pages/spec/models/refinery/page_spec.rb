@@ -443,7 +443,7 @@ module Refinery
       end
     end
 
-    describe ".in_menu?" do
+    describe "#in_menu?" do
       context "when live? and show_in_menu? returns true" do
         it "returns true" do
           page.stub(:live?).and_return(true)
@@ -465,7 +465,7 @@ module Refinery
       end
     end
 
-    describe ".not_in_menu?" do
+    describe "#not_in_menu?" do
       context "when in_menu? returns true" do
         it "returns false" do
           page.stub(:in_menu?).and_return(true)
@@ -498,6 +498,90 @@ module Refinery
 
       it "should return child about page when looking for '/team/about'" do
         Refinery::Page.find_by_path('/team/about').should == created_child
+      end
+    end
+
+    describe ".find_by_path_or_id" do
+      let!(:market) { FactoryGirl.create(:page, :title => "market") }
+      let(:path) { "market" }
+      let(:id) { market.id }
+      
+      context "when marketable urls are true and path is present" do
+        before do
+          Refinery::Page.stub(:marketable_urls).and_return(true)
+        end
+        
+        context "when path is friendly_id" do
+          it "finds page using path" do
+            Refinery::Page.find_by_path_or_id(path, "").should eq(market)
+          end
+        end
+
+        context "when path is not friendly_id" do
+          it "finds page using id" do
+            Refinery::Page.find_by_path_or_id(id, "").should eq(market)
+          end
+        end
+      end
+
+      context "when id is present" do
+        before do
+          Refinery::Page.stub(:marketable_urls).and_return(false)
+        end
+
+        it "finds page using id" do
+          Refinery::Page.find_by_path_or_id("", id).should eq(market)
+        end
+      end
+    end
+
+    describe "#deletable?" do
+      let(:deletable_page) do
+        page.deletable  = true
+        page.link_url   = ""
+        page.menu_match = ""
+        page
+      end
+      
+      context "when deletable is true and link_url, and menu_match is blank" do
+        it "returns true" do
+          deletable_page.deletable?.should be_true
+        end
+      end
+
+      context "when deletable is false and link_url, and menu_match is blank" do
+        it "returns false" do
+          deletable_page.deletable = false 
+          deletable_page.deletable?.should be_false
+        end
+      end
+
+      context "when deletable is false and link_url or menu_match isn't blank" do
+        it "returns false" do
+          deletable_page.deletable  = false 
+          deletable_page.link_url   = "text"
+          deletable_page.deletable?.should be_false
+
+          deletable_page.menu_match = "text"
+          deletable_page.deletable?.should be_false
+        end
+      end
+    end
+
+    describe "#destroy" do
+      before do
+        page.deletable  = false
+        page.link_url   = "link_url"
+        page.menu_match = "menu_match"
+        page.save!
+        # need to stub this in order to see message
+        Rails.env.stub(:test?).and_return(false)
+      end
+
+      it "shows message" do
+        msg = capture(:stdout) { page.destroy }
+
+        msg.should eq("This page is not deletable. Please use .destroy! if you really want it deleted \nunset .link_url,\nunset .menu_match,\nset .deletable to true\n")
       end
     end
   end
