@@ -3,6 +3,13 @@
   -moz-border-radius: $radius;
   -webkit-border-radius: $radius;
 }
+
+@mixin shadow($shadow) {
+	-moz-box-shadow: $shadow;
+	-webkit-box-shadow: $shadow;
+	box-shadow: $shadow;
+}
+
 #site_bar_content {
   height:47px;
   position: relative;
@@ -11,33 +18,37 @@
   width: 990px;
 }
 #site_bar {
-  background: #22a7f2;
+  background: -webkit-linear-gradient(#fff 0%, #ccc 100%);
   border-bottom: 0px none;
 }
 a#site_bar_refinery_cms_logo {
   left: 448px;
 }
 #site_bar, #site_bar * {
-  color: white;
+  color: #333;
   font-family: Arial;
   font-size: 14px;
   font-weight: normal;
+  text-shadow: 0 1px #FFF;
 }
 #editor_switch, #site_bar_branding, a#site_bar_refinery_cms_logo { position: absolute; }
 #editor_switch {
   left: 0px;
+  @include rounded(3px);
   a, a:hover {
-    color: white;
-    background: #e7682c image_url('refinery/orange_button.png') repeat-x;
-    border-bottom: 0px none;
-    padding: 4px 14px;
-    border: 1px solid #fca87f;
-    height: 24px;
+    color: #FFF;
+    background: -webkit-linear-gradient(#999 0%, #666 100%);
+    border-bottom: none;
+    padding: 6px 14px;
+    height: 26px;
     line-height: 24px;
     cursor: pointer;
+    text-shadow: 0 -1px 1px rgba(0,0,0,.2);
+  }
+  a:hover {
+	  color: #55BEFA;
   }
   span {
-    border: 1px solid #0280c7;
     height: 26px;
     line-height: 26px;
     margin-top: 9px;
@@ -45,13 +56,13 @@ a#site_bar_refinery_cms_logo {
     cursor: pointer;
   }
   a, span {
-    @include rounded(6px);
+    @include rounded(3px);
   }
 }
 #site_bar {
   height: 47px;
-  background: #22a7f2;
   padding: 0px;
+  @include shadow(0 1px 3px rgba(0,0,0,0.5));
   * {
     line-height: 47px;
   }

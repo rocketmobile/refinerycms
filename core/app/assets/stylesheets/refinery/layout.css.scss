@@ -39,7 +39,7 @@ body {
   font-size: 10px;
   font-family: Verdana;
   line-height: 1.5em;
-  background: #303030 image_url('refinery/page_bg.png') repeat;
+  background: #333;
 }
 acronym {
   cursor: help;
@@ -93,14 +93,14 @@ select.widest {
   li {
     margin-top: 10px;
     a {
-      background-color: #dbedff;
+      background-color: #EEE;
       background-position: 12px;
       background-repeat: no-repeat;
       border: 1px solid #65C3F7;
       display: block;
       padding: 9px 12px 9px 36px;
       &:hover {
-        background-color: #cae7fb;
+        background-color: #65C3F7;
       }
       &:active {
         background-color: #22A7F2;
@@ -437,10 +437,14 @@ header {
     float: left;
     margin-right: 2px;
     position: relative;
-    &.active, &:hover, &:focus {
+    &.active, &:focus {
       background-color: white;
-      color: #ff5500;
+      color: #55BEFA;
     }
+     &:hover{
+	     background-color: #DDD;
+       color: #55BEFA;
+     }
     &.active {
       padding: 11px 13px;
       margin-top: 0px;
@@ -1005,7 +1009,7 @@ ul#menu.reordering_menu li a {
   cursor: move;
 }
 #site_bar {
-  background: #22a7f2;
+  background: #000;
   border-bottom: 0px none;
 }
 #search {
