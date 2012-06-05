@@ -17,11 +17,6 @@ unless ENV['TRAVIS']
   gem 'sqlite3', :platform => :ruby
 end
 
-unless ENV['TRAVIS'] && ENV['DB'] != 'mysql'
-  gem 'activerecord-jdbcmysql-adapter', :platform => :jruby
-  gem 'mysql2', :platform => :ruby
-end
-
 unless ENV['TRAVIS'] && ENV['DB'] != 'postgresql'
   gem 'activerecord-jdbcpostgresql-adapter', :platform => :jruby
   gem 'pg', :platform => :ruby
